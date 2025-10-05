@@ -179,6 +179,61 @@ def example_7_error_handling():
         print(f"Message: {event['message'][:20]}... -> Status: {result.processed_event['status']}")
 
 
+def example_8_syntax_diagnostics():
+    """示例8: VRL语法诊断 / Example 8: VRL syntax diagnostics"""
+    print("\n=== 示例8: VRL语法诊断 / Example 8: VRL syntax diagnostics ===")
+    
+    # 正确的VRL程序 / Correct VRL program
+    correct_program = """
+    .status = "ok"
+    .count = 42
+    """
+    
+    # 错误的VRL程序 / Incorrect VRL programs
+    error_programs = [
+        # 语法错误：缺少赋值 / Syntax error: missing assignment
+        """
+        .field = 
+        """,
+        
+        # 类型错误：未处理可能失败的函数 / Type error: unhandled fallible function
+        """
+        .parsed = parse_json(.message)
+        """,
+        
+        # 未定义的函数 / Undefined function
+        """
+        .result = undefined_function(.field)
+        """,
+    ]
+    
+    # 检查正确的程序 / Check correct program
+    print("检查正确的程序 / Checking correct program:")
+    diagnostic = VRLRuntime.check_syntax(correct_program)
+    if diagnostic is None:
+        print("  ✅ 语法正确！/ Syntax is correct!")
+    else:
+        print(f"  ❌ 发现错误 / Found errors: {diagnostic.messages}")
+    
+    # 检查错误的程序 / Check incorrect programs
+    print("\n检查错误的程序 / Checking incorrect programs:")
+    for i, program in enumerate(error_programs, 1):
+        print(f"\n  程序 {i} / Program {i}:")
+        diagnostic = VRLRuntime.check_syntax(program)
+        
+        if diagnostic is None:
+            print("    ✅ 语法正确 / Syntax correct")
+        else:
+            print(f"    ❌ 发现 {len(diagnostic.messages)} 个错误 / Found {len(diagnostic.messages)} error(s)")
+            print(f"    错误信息 / Error messages:")
+            for msg in diagnostic.messages:
+                print(f"      - {msg}")
+            
+            # 显示格式化的诊断信息（带位置）/ Show formatted diagnostics (with location)
+            print(f"\n    详细诊断 / Detailed diagnostics:")
+            print("    " + "\n    ".join(diagnostic.formatted_message.split("\n")))
+
+
 def main():
     """运行所有示例 / Run all examples"""
     print("VRL Python SDK 使用示例 / VRL Python SDK Usage Examples")
@@ -191,6 +246,7 @@ def main():
     example_5_static_method()
     example_6_array_operations()
     example_7_error_handling()
+    example_8_syntax_diagnostics()
     
     print("\n" + "=" * 60)
     print("所有示例执行完成！/ All examples completed!")

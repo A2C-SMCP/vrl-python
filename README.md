@@ -15,6 +15,8 @@ VRL Python SDK Project
 
 • ✅ 完整的错误处理和诊断信息
 
+• ✅ **VRL语法检查和诊断** (新增)
+
 • ✅ 时区支持
 
 • ✅ 性能监控（执行时间统计）
@@ -52,6 +54,23 @@ result = runtime.execute(program, event)
 
 print(result.processed_event)
 # 输出: {'message': {'key': 'value'}, 'timestamp': '2023-01-01T00:00:00Z', 'new_field': 'new value'}
+
+
+VRL语法检查
+
+from vrl_sdk import VRLRuntime
+
+# 检查VRL程序语法
+program = """
+.parsed = parse_json(.message)
+"""
+
+diagnostic = VRLRuntime.check_syntax(program)
+if diagnostic is None:
+    print("✅ 语法正确")
+else:
+    print(f"❌ 发现错误: {diagnostic.messages}")
+    print(diagnostic.formatted_message)  # 详细的错误信息，包含位置和建议
 
 
 开发计划

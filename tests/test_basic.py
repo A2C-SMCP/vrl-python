@@ -172,5 +172,30 @@ def test_invalid_timezone():
         VRLRuntime(timezone="Invalid/Timezone")
 
 
+def test_syntax_diagnostics():
+    """测试语法诊断功能 / Test syntax diagnostics"""
+    # 正确的程序应该返回 None / Correct program should return None
+    correct_program = '.field = "value"'
+    diagnostic = VRLRuntime.check_syntax(correct_program)
+    assert diagnostic is None
+    
+    # 错误的程序应该返回诊断信息 / Incorrect program should return diagnostics
+    incorrect_program = '.field = parse_json(.data)'  # 缺少 ! 后缀
+    diagnostic = VRLRuntime.check_syntax(incorrect_program)
+    
+    assert diagnostic is not None
+    assert len(diagnostic.messages) > 0
+    assert "unhandled fallible assignment" in diagnostic.messages[0]
+    assert len(diagnostic.formatted_message) > 0
+    assert "error[E103]" in diagnostic.formatted_message
+    
+    # 语法错误 / Syntax error
+    syntax_error_program = '.field ='
+    diagnostic = VRLRuntime.check_syntax(syntax_error_program)
+    
+    assert diagnostic is not None
+    assert "syntax error" in diagnostic.messages[0]
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

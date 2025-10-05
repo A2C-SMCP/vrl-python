@@ -166,6 +166,28 @@ impl VRLRuntime {
         self.cached_source = None;
     }
     
+    /// 检查VRL程序语法 / Check VRL program syntax
+    /// 
+    /// 这个方法只检查语法，不执行程序，返回详细的诊断信息
+    /// This method only checks syntax without execution, returns detailed diagnostics
+    /// 
+    /// Args:
+    ///     source: VRL程序源码 / VRL program source code
+    /// 
+    /// Returns:
+    ///     Option[VRLDiagnostic]: 如果有错误返回诊断信息，否则返回None / Returns diagnostics if errors, None otherwise
+    #[staticmethod]
+    pub fn check_syntax(source: String) -> Option<VRLDiagnostic> {
+        let functions = vrl::stdlib::all();
+        let state = TypeState::default();
+        let config = CompileConfig::default();
+        
+        match compile_with_state(&source, &functions, &state, config) {
+            Ok(_) => None,
+            Err(diagnostics) => Some(create_diagnostic(&source, diagnostics)),
+        }
+    }
+    
     fn __repr__(&self) -> String {
         format!(
             "VRLRuntime(timezone={:?}, cached={})",

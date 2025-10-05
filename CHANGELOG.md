@@ -9,11 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added / 新增
+- ✨ 新增 `VRLRuntime.check_syntax()` 静态方法用于VRL语法检查 / Added `VRLRuntime.check_syntax()` static method for VRL syntax checking
+- 📚 新增示例8：VRL语法诊断演示 / Added example 8: VRL syntax diagnostics demonstration
+- ✅ 新增语法诊断测试用例 / Added syntax diagnostics test case
+
 ### Changed / 变更
 - ⬆️ 升级 PyO3 到 0.26 (最新版本) / Upgraded PyO3 to 0.26 (latest version)
 - 🔄 适配 PyO3 0.26 的新 API (`Bound<'py, T>`, `Py<PyAny>`) / Adapted to PyO3 0.26 new API
 - 🔧 使用 ordered-float 4.6 以匹配 VRL 依赖 / Using ordered-float 4.6 to match VRL dependency
 - ♻️ 移除未使用的依赖 (serde, chrono, chrono-tz) / Removed unused dependencies
+- 📖 更新 README 添加语法检查示例 / Updated README with syntax checking examples
 
 ## [0.1.0] - 2025-10-06
 
