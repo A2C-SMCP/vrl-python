@@ -7,6 +7,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed / 变更
+- ⬆️ 升级 PyO3 到 0.26 (最新版本) / Upgraded PyO3 to 0.26 (latest version)
+- 🔄 适配 PyO3 0.26 的新 API (`Bound<'py, T>`, `Py<PyAny>`) / Adapted to PyO3 0.26 new API
+- 🔧 使用 ordered-float 4.6 以匹配 VRL 依赖 / Using ordered-float 4.6 to match VRL dependency
+- ♻️ 移除未使用的依赖 (serde, chrono, chrono-tz) / Removed unused dependencies
+
 ## [0.1.0] - 2025-10-06
 
 ### Added / 新增

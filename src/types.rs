@@ -9,22 +9,22 @@
  */
 
 use pyo3::prelude::*;
-use pyo3::types::{PyDict, PyList};
+use pyo3::types::{PyDict, PyList, PyAny};
+use pyo3::{Bound, Py};
 use serde_json::Value as JsonValue;
 use vrl::value::Value as VrlValue;
 use std::collections::BTreeMap;
 
 /// VRL执行结果 / VRL execution result
 #[pyclass]
-#[derive(Clone)]
 pub struct VRLResult {
     /// 处理后的事件数据 / Processed event data
     #[pyo3(get)]
-    pub processed_event: PyObject,
+    pub processed_event: Py<PyAny>,
     
     /// 运行时结果（最后一个表达式的值）/ Runtime result (value of last expression)
     #[pyo3(get)]
-    pub runtime_result: PyObject,
+    pub runtime_result: Py<PyAny>,
     
     /// 执行时间（毫秒）/ Execution time (milliseconds)
     #[pyo3(get)]
@@ -70,7 +70,7 @@ impl VRLDiagnostic {
 }
 
 /// 将Python对象转换为VRL Value / Convert Python object to VRL Value
-pub fn py_to_vrl_value(py: Python, obj: &PyAny) -> PyResult<VrlValue> {
+pub fn py_to_vrl_value(py: Python, obj: &Bound<'_, PyAny>) -> PyResult<VrlValue> {
     // 先转换为JSON，再转换为VRL Value / Convert to JSON first, then to VRL Value
     let json_str = if obj.is_none() {
         "null".to_string()
@@ -86,14 +86,14 @@ pub fn py_to_vrl_value(py: Python, obj: &PyAny) -> PyResult<VrlValue> {
         let mut map = serde_json::Map::new();
         for (key, value) in dict.iter() {
             let key_str = key.extract::<String>()?;
-            let json_value = py_to_json_value(py, value)?;
+            let json_value = py_to_json_value(py, &value)?;
             map.insert(key_str, json_value);
         }
         serde_json::to_string(&JsonValue::Object(map)).unwrap()
     } else if let Ok(list) = obj.downcast::<PyList>() {
         let mut vec = Vec::new();
         for item in list.iter() {
-            vec.push(py_to_json_value(py, item)?);
+            vec.push(py_to_json_value(py, &item)?);
         }
         serde_json::to_string(&JsonValue::Array(vec)).unwrap()
     } else {
@@ -141,43 +141,46 @@ fn json_to_vrl_value(json: JsonValue) -> VrlValue {
 }
 
 /// 将VRL Value转换为Python对象 / Convert VRL Value to Python object
-pub fn vrl_value_to_py(py: Python, value: &VrlValue) -> PyResult<PyObject> {
+pub fn vrl_value_to_py(py: Python, value: &VrlValue) -> PyResult<Py<PyAny>> {
     match value {
         VrlValue::Null => Ok(py.None()),
-        VrlValue::Boolean(b) => Ok(b.to_object(py)),
-        VrlValue::Integer(i) => Ok(i.to_object(py)),
-        VrlValue::Float(f) => Ok(f.into_inner().to_object(py)),
+        VrlValue::Boolean(b) => Ok(b.into_pyobject(py)?.to_owned().into_any().unbind()),
+        VrlValue::Integer(i) => Ok(i.into_pyobject(py)?.to_owned().into_any().unbind()),
+        VrlValue::Float(f) => {
+            // ordered-float 4.x 使用 into_inner() 获取 f64
+            Ok(f.into_inner().into_pyobject(py)?.to_owned().into_any().unbind())
+        }
         VrlValue::Bytes(b) => {
-            let s = String::from_utf8_lossy(b.as_ref());
-            Ok(s.to_object(py))
+            let s = String::from_utf8_lossy(b.as_ref()).to_string();
+            Ok(s.into_pyobject(py)?.to_owned().into_any().unbind())
         }
         VrlValue::Timestamp(ts) => {
             let s = ts.to_string();
-            Ok(s.to_object(py))
+            Ok(s.into_pyobject(py)?.to_owned().into_any().unbind())
         }
         VrlValue::Regex(r) => {
             let s = r.to_string();
-            Ok(s.to_object(py))
+            Ok(s.into_pyobject(py)?.to_owned().into_any().unbind())
         }
         VrlValue::Array(arr) => {
             let list = PyList::empty(py);
             for item in arr {
                 list.append(vrl_value_to_py(py, item)?)?;
             }
-            Ok(list.to_object(py))
+            Ok(list.into_any().unbind())
         }
         VrlValue::Object(obj) => {
             let dict = PyDict::new(py);
             for (k, v) in obj {
                 dict.set_item(k.as_ref(), vrl_value_to_py(py, v)?)?;
             }
-            Ok(dict.to_object(py))
+            Ok(dict.into_any().unbind())
         }
     }
 }
 
 /// 辅助函数：将Python对象转换为JSON Value / Helper: Convert Python object to JSON Value
-fn py_to_json_value(py: Python, obj: &PyAny) -> PyResult<JsonValue> {
+fn py_to_json_value(py: Python, obj: &Bound<'_, PyAny>) -> PyResult<JsonValue> {
     if obj.is_none() {
         Ok(JsonValue::Null)
     } else if let Ok(b) = obj.extract::<bool>() {
@@ -194,13 +197,13 @@ fn py_to_json_value(py: Python, obj: &PyAny) -> PyResult<JsonValue> {
         let mut map = serde_json::Map::new();
         for (key, value) in dict.iter() {
             let key_str = key.extract::<String>()?;
-            map.insert(key_str, py_to_json_value(py, value)?);
+            map.insert(key_str, py_to_json_value(py, &value)?);
         }
         Ok(JsonValue::Object(map))
     } else if let Ok(list) = obj.downcast::<PyList>() {
         let mut vec = Vec::new();
         for item in list.iter() {
-            vec.push(py_to_json_value(py, item)?);
+            vec.push(py_to_json_value(py, &item)?);
         }
         Ok(JsonValue::Array(vec))
     } else {

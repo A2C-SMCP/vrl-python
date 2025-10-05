@@ -9,6 +9,8 @@
  */
 
 use pyo3::prelude::*;
+use pyo3::types::PyModule;
+use pyo3::Bound;
 
 mod runtime;
 mod types;
@@ -23,15 +25,15 @@ use error::{VRLCompileError, VRLRuntimeError};
 /// 这个模块提供了Vector Remap Language (VRL)的Python绑定
 /// This module provides Python bindings for Vector Remap Language (VRL)
 #[pymodule]
-fn _vrl_python(_py: Python, m: &PyModule) -> PyResult<()> {
+fn _vrl_python(m: &Bound<'_, PyModule>) -> PyResult<()> {
     // 注册主要类 / Register main classes
     m.add_class::<VRLRuntime>()?;
     m.add_class::<VRLResult>()?;
     m.add_class::<VRLDiagnostic>()?;
     
     // 注册异常类型 / Register exception types
-    m.add("VRLCompileError", _py.get_type::<VRLCompileError>())?;
-    m.add("VRLRuntimeError", _py.get_type::<VRLRuntimeError>())?;
+    m.add("VRLCompileError", m.py().get_type::<VRLCompileError>())?;
+    m.add("VRLRuntimeError", m.py().get_type::<VRLRuntimeError>())?;
     
     // 添加版本信息 / Add version information
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
