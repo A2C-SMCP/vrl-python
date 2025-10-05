@@ -16,6 +16,8 @@ from ._vrl_python import (
     VRLRuntime,
     VRLResult,
     VRLDiagnostic,
+    VRLCompileError,
+    VRLRuntimeError,
     __version__,
 )
 
@@ -23,5 +25,7 @@ __all__ = [
     "VRLRuntime",
     "VRLResult",
     "VRLDiagnostic",
+    "VRLCompileError",
+    "VRLRuntimeError",
     "__version__",
 ]

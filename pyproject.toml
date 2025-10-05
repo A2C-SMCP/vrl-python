@@ -35,6 +35,8 @@ Documentation = "https://github.com/yourusername/vrl-python#readme"
 features = ["pyo3/extension-module"]
 python-source = "python"
 module-name = "vrl_python._vrl_python"
+# 包含类型提示文件 / Include type hint files
+include = ["python/vrl_python/*.pyi", "python/vrl_python/py.typed"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
