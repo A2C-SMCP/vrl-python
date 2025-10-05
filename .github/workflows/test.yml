@@ -38,8 +38,17 @@ jobs:
         if: runner.os == 'Windows'
         run: pip install maturin pytest pytest-cov
       
-      - name: Build and install
-        run: maturin develop --release
+      - name: Build wheel
+        run: maturin build --release --out dist
+      
+      - name: Install wheel (Unix)
+        if: runner.os != 'Windows'
+        run: pip install dist/*.whl
+      
+      - name: Install wheel (Windows)
+        if: runner.os == 'Windows'
+        run: pip install (Get-ChildItem dist/*.whl)
+        shell: pwsh
       
       - name: Run tests
         run: pytest tests/ -v --cov=vrl_python --cov-report=xml

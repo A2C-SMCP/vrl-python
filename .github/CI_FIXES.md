@@ -6,7 +6,50 @@
 
 ## 🐛 已修复的问题 / Fixed Issues
 
-### 1. Rust 代码格式问题 / Rust Formatting Issues
+### 1. maturin develop 在 CI 中失败 / maturin develop Fails in CI
+
+**问题描述 / Issue**:
+```
+💥 maturin failed
+Couldn't find a virtualenv or conda environment
+```
+
+**原因 / Cause**:
+- GitHub Actions 环境中没有激活的虚拟环境
+- `maturin develop` 需要虚拟环境
+- CI 环境使用系统 Python
+
+**解决方案 / Solution**:
+
+使用 `maturin build` + `pip install` 代替 `maturin develop`:
+
+```yaml
+# 之前 / Before
+- name: Build and install
+  run: maturin develop --release
+
+# 之后 / After
+- name: Build wheel
+  run: maturin build --release --out dist
+
+- name: Install wheel (Unix)
+  if: runner.os != 'Windows'
+  run: pip install dist/*.whl
+
+- name: Install wheel (Windows)
+  if: runner.os == 'Windows'
+  run: pip install (Get-ChildItem dist/*.whl)
+  shell: pwsh
+```
+
+**说明 / Explanation**:
+- `maturin build`: 构建 wheel 文件，不需要虚拟环境
+- `pip install`: 直接安装到系统 Python
+- Windows 使用 PowerShell 处理通配符
+
+---
+
+### 2. Rust 代码格式问题 / Rust Formatting Issues
 
 **问题描述 / Issue**:
 ```
@@ -35,7 +78,7 @@ cargo fmt -- --check
 
 ---
 
-### 2. Windows 上 patchelf 构建失败 / patchelf Build Failure on Windows
+### 3. Windows 上 patchelf 构建失败 / patchelf Build Failure on Windows
 
 **问题描述 / Issue**:
 ```
@@ -72,7 +115,7 @@ Building wheel for patchelf (pyproject.toml): finished with status 'error'
 
 ---
 
-### 3. Python Linting 工具缺失 / Missing Python Linting Tools
+### 4. Python Linting 工具缺失 / Missing Python Linting Tools
 
 **问题描述 / Issue**:
 ```
@@ -245,9 +288,11 @@ gh run rerun <run-id>
 
 | 日期 / Date | 问题 / Issue | 状态 / Status |
 |------------|-------------|--------------|
+| 2025-10-06 | maturin develop 失败 | ✅ 已修复 |
 | 2025-10-06 | Rust 格式问题 | ✅ 已修复 |
 | 2025-10-06 | Windows patchelf | ✅ 已修复 |
 | 2025-10-06 | Python linting | ✅ 已修复 |
+| 2025-10-06 | Clippy 警告 | ✅ 已修复 |
 
 ---
 
