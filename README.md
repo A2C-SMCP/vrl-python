@@ -112,6 +112,16 @@ PyPI发布准备
 
 • maturin (构建工具)
 
+CI/CD
+
+• ✅ GitHub Actions 自动化测试
+
+• ✅ 多平台支持 (Linux, macOS, Windows)
+
+• ✅ 自动发布到 PyPI/TestPyPI
+
+• ✅ Trusted Publishing (安全发布)
+
 构建与测试
 
 ## 使用 Makefile（推荐）
