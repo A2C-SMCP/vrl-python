@@ -100,7 +100,7 @@ impl VRLRuntime {
     /// 
     /// Returns:
     ///     VRLResult: 包含处理结果的对象 / Object containing processing results
-    pub fn execute(&mut self, py: Python, source: String, event: &PyAny) -> PyResult<VRLResult> {
+    pub fn execute(&mut self, py: Python, source: String, event: &Bound<'_, PyAny>) -> PyResult<VRLResult> {
         // 如果源码与缓存不同，重新编译 / Recompile if source differs from cache
         if self.cached_source.as_ref() != Some(&source) {
             self.compile(source.clone())?;
@@ -155,7 +155,7 @@ impl VRLRuntime {
     /// 这是一个便捷方法，适合一次性执行的场景
     /// This is a convenience method for one-time execution scenarios
     #[staticmethod]
-    pub fn run(py: Python, source: String, event: &PyAny, timezone: Option<String>) -> PyResult<VRLResult> {
+    pub fn run(py: Python, source: String, event: &Bound<'_, PyAny>, timezone: Option<String>) -> PyResult<VRLResult> {
         let mut runtime = VRLRuntime::new(timezone)?;
         runtime.execute(py, source, event)
     }

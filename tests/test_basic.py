@@ -84,7 +84,7 @@ def test_static_run_method():
     program = '.result = "from static method"'
     event = {}
     
-    result = VRLRuntime.run(program, event)
+    result = VRLRuntime.run(program, event, None)
     
     assert isinstance(result, VRLResult)
     assert result.processed_event["result"] == "from static method"
