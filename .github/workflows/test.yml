@@ -30,8 +30,13 @@ jobs:
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
       
-      - name: Install maturin
+      - name: Install maturin (Linux/macOS)
+        if: runner.os != 'Windows'
         run: pip install maturin[patchelf] pytest pytest-cov
+      
+      - name: Install maturin (Windows)
+        if: runner.os == 'Windows'
+        run: pip install maturin pytest pytest-cov
       
       - name: Build and install
         run: maturin develop --release
@@ -70,10 +75,18 @@ jobs:
           python-version: '3.11'
       
       - name: Install Python linters
-        run: pip install black ruff mypy
+        run: pip install black ruff || true
       
-      - name: Check Python formatting
-        run: black --check python/ tests/ examples/ || true
+      - name: Check Python formatting (if exists)
+        run: |
+          if [ -d "python/" ]; then
+            black --check python/ tests/ examples/ || echo "Black check completed with warnings"
+          fi
+        continue-on-error: true
       
-      - name: Run Ruff
-        run: ruff check python/ tests/ examples/ || true
+      - name: Run Ruff (if exists)
+        run: |
+          if [ -d "python/" ]; then
+            ruff check python/ tests/ examples/ || echo "Ruff check completed with warnings"
+          fi
+        continue-on-error: true

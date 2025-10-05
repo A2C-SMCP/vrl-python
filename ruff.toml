@@ -1,0 +1,49 @@
+# Ruff 配置文件 / Ruff configuration file
+# https://docs.astral.sh/ruff/
+
+line-length = 140
+target-version = "py38"  # 项目最低支持 Python 3.8 / Project supports Python 3.8+
+
+[lint]
+preview = true
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "W",   # pycodestyle warnings
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+    "ANN", # flake8-annotations
+    "COM", # flake8-commas: enforce trailing commas in multiline
+]
+extend-ignore = [
+    "UP009",  # UTF-8 encoding declaration (Python 3.8+ 不需要)
+    "ANN401", # Any 类型注解 (在某些情况下是必要的)
+    "COM812", # 与 formatter 冲突 / Conflicts with formatter
+]
+
+[lint.per-file-ignores]
+"__init__.py" = ["F401"]  # Unused imports (用于重新导出)
+"tests/**/*.py" = [
+    "F811",  # Redefinition in test files
+    "F401",  # Unused imports
+    "B017",  # assertRaises(Exception)
+    "ANN",   # 测试文件不强制类型注解
+]
+"examples/**/*.py" = [
+    "ANN",   # 示例代码不强制类型注解
+]
+"test_*.py" = [
+    "ANN",   # 测试脚本不强制类型注解
+]
+
+[lint.isort]
+known-first-party = ["vrl_python"]  # 项目包名
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[format]
+preview = true
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+skip-magic-trailing-comma = false

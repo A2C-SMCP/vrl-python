@@ -13,10 +13,10 @@ Python SDK for Vector Remap Language (VRL) based on PyO3
 """
 
 from ._vrl_python import (
-    VRLRuntime,
-    VRLResult,
-    VRLDiagnostic,
     VRLCompileError,
+    VRLDiagnostic,
+    VRLResult,
+    VRLRuntime,
     VRLRuntimeError,
     __version__,
 )

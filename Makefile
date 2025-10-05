@@ -70,16 +70,17 @@ clean:
 	find . -type f -name "*.pyc" -delete
 	find . -type f -name "*.so" -delete
 	find . -type f -name "*.pyd" -delete
-	@echo "✨ 清理完成 / Cleaning completed"
+	@echo "清理完成 / Cleaning completed"
 
 # 格式化 Python 代码 / Format Python code
 format-py:
-	@echo "🎨 格式化 Python 代码 / Formatting Python code..."
-	. .venv/bin/activate && black python/ tests/ examples/ *.py
+	@echo "格式化 Python 代码 / Formatting Python code..."
+	. .venv/bin/activate && ruff format python/ tests/ examples/ *.py
+	. .venv/bin/activate && ruff check python/ tests/ examples/ *.py --fix
 
 # 格式化 Rust 代码 / Format Rust code
 format-rs:
-	@echo "🎨 格式化 Rust 代码 / Formatting Rust code..."
+	@echo "格式化 Rust 代码 / Formatting Rust code..."
 	cargo fmt
 
 # 格式化所有代码 / Format all code
@@ -89,12 +90,12 @@ format: format-py format-rs
 # Python 代码检查 / Lint Python code
 lint-py:
 	@echo "🔍 检查 Python 代码 / Linting Python code..."
-	. .venv/bin/activate && ruff check python/ tests/ examples/ || true
+	. .venv/bin/activate && ruff check python/ tests/ examples/
 
 # Rust 代码检查 / Lint Rust code
 lint-rs:
 	@echo "🔍 检查 Rust 代码 / Linting Rust code..."
-	cargo clippy -- -D warnings || true
+	cargo clippy -- -D warnings
 
 # 所有代码检查 / Lint all code
 lint: lint-py lint-rs
