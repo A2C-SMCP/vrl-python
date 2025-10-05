@@ -1,0 +1,17 @@
+# 开发依赖 / Development dependencies
+
+# 构建工具 / Build tools
+maturin>=1.0,<2.0
+
+# 测试工具 / Testing tools
+pytest>=7.0
+pytest-cov>=4.0
+
+# 代码质量 / Code quality
+black>=23.0
+ruff>=0.1.0
+mypy>=1.0
+
+# 文档 / Documentation
+sphinx>=6.0
+sphinx-rtd-theme>=1.0
