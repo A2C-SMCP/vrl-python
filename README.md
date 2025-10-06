@@ -75,6 +75,20 @@ else:
     print(diagnostic.formatted_message)  # 详细的错误信息，包含位置和建议
 
 
+版本管理
+
+本项目使用 `bump-my-version` 管理版本号，确保 Rust 和 Python 版本同步。
+
+## 常用命令
+
+make version        # 查看当前版本
+make check-version  # 检查版本一致性
+make bump-patch     # 升级补丁版本 (0.1.0 -> 0.1.1)
+make bump-minor     # 升级次版本 (0.1.0 -> 0.2.0)
+make bump-major     # 升级主版本 (0.1.0 -> 1.0.0)
+
+详细文档：`VERSION_MANAGEMENT.md`
+
 开发计划
 
 阶段1: 核心功能实现 ✅ (已完成)

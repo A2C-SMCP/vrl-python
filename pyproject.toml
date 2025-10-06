@@ -46,5 +46,6 @@ python_functions = "test_*"
 
 [dependency-groups]
 dev = [
+    "bump-my-version>=1.2.4",
     "ruff>=0.13.3",
 ]
