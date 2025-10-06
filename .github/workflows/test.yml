@@ -1,0 +1,101 @@
+name: Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }} - Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+      
+      - name: Install maturin (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: pip install maturin[patchelf] pytest pytest-cov
+      
+      - name: Install maturin (Windows)
+        if: runner.os == 'Windows'
+        run: pip install maturin pytest pytest-cov
+      
+      - name: Build wheel
+        run: maturin build --release --out dist
+      
+      - name: Install wheel (Unix)
+        if: runner.os != 'Windows'
+        run: pip install dist/*.whl
+      
+      - name: Install wheel (Windows)
+        if: runner.os == 'Windows'
+        run: pip install (Get-ChildItem dist/*.whl)
+        shell: pwsh
+      
+      - name: Run tests
+        run: pytest tests/ -v --cov=vrl_python --cov-report=xml
+      
+      - name: Upload coverage to Codecov
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: false
+
+  lint:
+    name: Lint and Format Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      
+      - name: Check Rust formatting
+        run: cargo fmt -- --check
+      
+      - name: Run Clippy
+        run: cargo clippy -- -D warnings
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install Python linters
+        run: pip install black ruff || true
+      
+      - name: Check Python formatting (if exists)
+        run: |
+          if [ -d "python/" ]; then
+            black --check python/ tests/ examples/ || echo "Black check completed with warnings"
+          fi
+        continue-on-error: true
+      
+      - name: Run Ruff (if exists)
+        run: |
+          if [ -d "python/" ]; then
+            ruff check python/ tests/ examples/ || echo "Ruff check completed with warnings"
+          fi
+        continue-on-error: true

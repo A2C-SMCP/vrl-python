@@ -12,16 +12,22 @@ VRL Python SDK
 Python SDK for Vector Remap Language (VRL) based on PyO3
 """
 
+# 版本号 / Version - 由 bump-my-version 自动管理
+__version__ = "0.1.0"
+
 from ._vrl_python import (
-    VRLRuntime,
-    VRLResult,
+    VRLCompileError,
     VRLDiagnostic,
-    __version__,
+    VRLResult,
+    VRLRuntime,
+    VRLRuntimeError,
 )
 
 __all__ = [
     "VRLRuntime",
     "VRLResult",
     "VRLDiagnostic",
+    "VRLCompileError",
+    "VRLRuntimeError",
     "__version__",
 ]

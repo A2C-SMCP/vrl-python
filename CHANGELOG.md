@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✨ 新增 `VRLRuntime.check_syntax()` 静态方法用于VRL语法检查 / Added `VRLRuntime.check_syntax()` static method for VRL syntax checking
 - 📚 新增示例8：VRL语法诊断演示 / Added example 8: VRL syntax diagnostics demonstration
 - ✅ 新增语法诊断测试用例 / Added syntax diagnostics test case
+- 🎯 **新增完整的类型提示支持** / **Added complete type hints support**
+  - `.pyi` stub 文件 / `.pyi` stub files
+  - `py.typed` 标记文件 / `py.typed` marker file
+  - IDE 智能提示支持 / IDE IntelliSense support
+  - 静态类型检查支持 (mypy, pyright) / Static type checking support
 
 ### Changed / 变更
 - ⬆️ 升级 PyO3 到 0.26 (最新版本) / Upgraded PyO3 to 0.26 (latest version)

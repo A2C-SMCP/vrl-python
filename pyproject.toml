@@ -3,7 +3,7 @@ requires = ["maturin>=1.0,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "vrl-python-sdk"
+name = "vrl-python"
 version = "0.1.0"
 description = "Python bindings for Vector Remap Language (VRL)"
 authors = [
@@ -35,9 +35,17 @@ Documentation = "https://github.com/yourusername/vrl-python#readme"
 features = ["pyo3/extension-module"]
 python-source = "python"
 module-name = "vrl_python._vrl_python"
+# 包含类型提示文件 / Include type hint files
+include = ["python/vrl_python/*.pyi", "python/vrl_python/py.typed"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"
+
+[dependency-groups]
+dev = [
+    "bump-my-version>=1.2.4",
+    "ruff>=0.13.3",
+]
