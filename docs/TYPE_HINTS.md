@@ -369,8 +369,8 @@ ignore_missing_imports = False
 **解决方案**:
 ```bash
 # 重新安装包
-pip uninstall vrl-python-sdk
-pip install vrl-python-sdk
+pip uninstall vrl-python
+pip install vrl-python
 
 # 检查 .pyi 文件是否存在
 python -c "import vrl_python; print(vrl_python.__file__)"

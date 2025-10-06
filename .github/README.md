@@ -191,8 +191,8 @@ act push  # 模拟 push 事件
 ```markdown
 ![CI](https://github.com/A2C-SMCP/vrl-python/workflows/CI/badge.svg)
 ![Test](https://github.com/A2C-SMCP/vrl-python/workflows/Test/badge.svg)
-![PyPI](https://img.shields.io/pypi/v/vrl-python-sdk)
-![Python](https://img.shields.io/pypi/pyversions/vrl-python-sdk)
+![PyPI](https://img.shields.io/pypi/v/vrl-python)
+![Python](https://img.shields.io/pypi/pyversions/vrl-python)
 ```
 
 ---

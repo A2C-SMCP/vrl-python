@@ -3,6 +3,69 @@ VRL Python SDK Project
 
 基于PyO3封装的Vector Remap Language (VRL) Python SDK
 
+## Python 开发者快速使用指南 / Quick Start for Python Developers
+
+> 包名（PyPI）：`vrl-python` ；导入模块：`vrl_python`
+
+### 安装 / Install
+
+```bash
+# 使用 pip（推荐） / Use pip (recommended)
+pip install vrl-python
+
+# 使用 uv / Use uv
+uv add vrl-python
+
+# 使用 Poetry / Use Poetry
+poetry add vrl-python
+```
+
+> 运行环境 / Requirements：Python >= 3.8
+
+### 快速开始 / Quick Start
+
+```python
+# 中文：从 vrl_python 导入 VRLRuntime，并运行一个最小示例
+# English: Import VRLRuntime from vrl_python and run a minimal example
+from vrl_python import VRLRuntime
+
+runtime = VRLRuntime()  # 中文：使用默认UTC；English: uses UTC by default
+
+program = ".field = \"value\""  # 中文：设置字段；English: set a field
+event = {}  # 中文：输入事件；English: input event
+
+result = runtime.execute(program, event)
+print(result.processed_event)  # {'field': 'value'}
+```
+
+### 一次性执行（便捷方法） / One-shot execution (convenience)
+
+```python
+# 中文：无需先创建实例，直接编译+执行
+# English: compile+execute in one call without creating an instance
+from vrl_python import VRLRuntime
+
+result = VRLRuntime.run('.greeting = "hello"', {})
+print(result.processed_event)  # {'greeting': 'hello'}
+```
+
+### 语法检查 / Syntax Check
+
+```python
+# 中文：仅检查语法，不执行
+# English: check syntax only, no execution
+from vrl_python import VRLRuntime
+
+diagnostic = VRLRuntime.check_syntax('.parsed = parse_json(.message)')
+if diagnostic is None:
+    print('✅ 语法正确 / Syntax OK')
+else:
+    print('❌ 发现错误 / Errors found:', diagnostic.messages)
+    print(diagnostic.formatted_message)
+```
+
+---
+
 项目概述
 
 本项目旨在为Vector的VRL语言提供一个Python SDK封装，使Python开发者能够直接在Python环境中使用VRL的强大数据处理能力。封装基于PyO3实现，提供高性能的Rust底层实现和友好的Python API。
@@ -29,12 +92,14 @@ VRL Python SDK Project
 
 安装
 
-pip install vrl-python-sdk
+```
+pip install vrl-python
+```
 
 
 基本用法
 
-from vrl_sdk import VRLRuntime
+from vrl_python import VRLRuntime
 
 # 初始化运行时
 runtime = VRLRuntime()
@@ -60,7 +125,7 @@ print(result.processed_event)
 
 VRL语法检查
 
-from vrl_sdk import VRLRuntime
+from vrl_python import VRLRuntime
 
 # 检查VRL程序语法
 program = """

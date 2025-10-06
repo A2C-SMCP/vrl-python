@@ -24,7 +24,7 @@ git push origin v0.1.0-beta.1
 # - 查看 "Publish to PyPI" 工作流
 
 # 4. 验证发布
-pip install --index-url https://test.pypi.org/simple/ vrl-python-sdk
+pip install --index-url https://test.pypi.org/simple/ vrl-python
 ```
 
 ### 正式发布 (PyPI)
@@ -44,7 +44,7 @@ git push origin v0.1.0
 # - 在 Actions 页面批准部署
 
 # 4. 验证发布
-pip install vrl-python-sdk
+pip install vrl-python
 ```
 
 ---
@@ -155,16 +155,16 @@ git push origin --delete v0.1.0  # 远程
 # 从 TestPyPI 安装
 pip install --index-url https://test.pypi.org/simple/ \
     --extra-index-url https://pypi.org/simple/ \
-    vrl-python-sdk
+    vrl-python
 
 # 从 PyPI 安装
-pip install vrl-python-sdk
+pip install vrl-python
 
 # 安装特定版本
-pip install vrl-python-sdk==0.1.0
+pip install vrl-python==0.1.0
 
 # 升级到最新版本
-pip install --upgrade vrl-python-sdk
+pip install --upgrade vrl-python
 ```
 
 ### 本地构建测试
@@ -218,8 +218,8 @@ maturin sdist
 
 ### 1. 检查 PyPI 页面
 
-- TestPyPI: https://test.pypi.org/project/vrl-python-sdk/
-- PyPI: https://pypi.org/project/vrl-python-sdk/
+- TestPyPI: https://test.pypi.org/project/vrl-python/
+- PyPI: https://pypi.org/project/vrl-python/
 
 ### 2. 测试安装
 
@@ -229,7 +229,7 @@ python -m venv test_env
 source test_env/bin/activate
 
 # 安装包
-pip install vrl-python-sdk
+pip install vrl-python
 
 # 测试导入
 python -c "from vrl_python import VRLRuntime; print('✅ Import successful')"
@@ -248,10 +248,10 @@ print('✅ Basic test passed')
 
 ```bash
 # 查看包信息
-pip show vrl-python-sdk
+pip show vrl-python
 
 # 查看包文件
-pip show -f vrl-python-sdk
+pip show -f vrl-python
 ```
 
 ---
@@ -284,15 +284,15 @@ pip show -f vrl-python-sdk
 **完整变更日志 / Full Changelog**: https://github.com/A2C-SMCP/vrl-python/compare/v0.0.1...v0.1.0
 
 **安装 / Installation**:
-\`\`\`bash
-pip install vrl-python-sdk==0.1.0
-\`\`\`
+```bash
+pip install vrl-python==0.1.0
+```
+\`\`
 
 **文档 / Documentation**: https://github.com/A2C-SMCP/vrl-python#readme
 ```
-
 ---
-
+{{ ... }}
 ## 🎯 最佳实践
 
 1. **先测试后发布**

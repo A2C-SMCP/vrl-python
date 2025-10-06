@@ -66,7 +66,7 @@
 
 添加 Trusted Publisher：
 ```
-PyPI Project Name: vrl-python-sdk
+PyPI Project Name: vrl-python
 Owner: A2C-SMCP
 Repository name: vrl-python
 Workflow name: publish.yml
@@ -79,7 +79,7 @@ Environment name: pypi
 
 添加 Trusted Publisher：
 ```
-PyPI Project Name: vrl-python-sdk
+PyPI Project Name: vrl-python
 Owner: A2C-SMCP
 Repository name: vrl-python
 Workflow name: publish.yml
@@ -126,7 +126,7 @@ git push origin v0.1.0-beta.1
 # - 自动发布到 TestPyPI
 
 # 4. 验证
-pip install --index-url https://test.pypi.org/simple/ vrl-python-sdk
+pip install --index-url https://test.pypi.org/simple/ vrl-python
 ```
 
 ### 正式发布流程
@@ -146,7 +146,7 @@ git push origin v0.1.0
 # - 在 Actions 页面批准部署
 
 # 4. 验证
-pip install vrl-python-sdk
+pip install vrl-python
 ```
 
 ---

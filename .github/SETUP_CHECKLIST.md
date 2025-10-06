@@ -18,7 +18,7 @@
 - [ ] 选择 "GitHub"
 - [ ] 填写以下信息：
   ```
-  PyPI Project Name: vrl-python-sdk
+  PyPI Project Name: vrl-python
   Owner: A2C-SMCP
   Repository name: vrl-python
   Workflow name: publish.yml
@@ -37,7 +37,7 @@
 - [ ] 选择 "GitHub"
 - [ ] 填写以下信息：
   ```
-  PyPI Project Name: vrl-python-sdk
+  PyPI Project Name: vrl-python
   Owner: A2C-SMCP
   Repository name: vrl-python
   Workflow name: publish.yml
@@ -170,13 +170,13 @@ git push origin v0.1.0-beta.1
 
 #### ☐ 4.5 验证 TestPyPI 发布
 
-- [ ] 访问 https://test.pypi.org/project/vrl-python-sdk/
+- [ ] 访问 https://test.pypi.org/project/vrl-python/
 - [ ] 应该看到 `0.1.0b1` 版本
 - [ ] 测试安装：
   ```bash
   pip install --index-url https://test.pypi.org/simple/ \
       --extra-index-url https://pypi.org/simple/ \
-      vrl-python-sdk
+      vrl-python
   ```
 - [ ] 测试导入：
   ```bash
@@ -215,11 +215,11 @@ git push origin v0.1.0
 
 #### ☐ 5.4 验证 PyPI 发布
 
-- [ ] 访问 https://pypi.org/project/vrl-python-sdk/
+- [ ] 访问 https://pypi.org/project/vrl-python/
 - [ ] 应该看到 `0.1.0` 版本
 - [ ] 测试安装：
   ```bash
-  pip install vrl-python-sdk
+  pip install vrl-python
   ```
 - [ ] 测试导入：
   ```bash

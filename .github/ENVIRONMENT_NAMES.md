@@ -36,12 +36,12 @@ Environment 名称必须在以下**三个地方**保持**完全一致**（包括
 
 **PyPI (正式环境)**:
 - 访问：https://pypi.org/manage/account/publishing/
-- 查找 `vrl-python-sdk` 项目
+- 查找 `vrl-python` 项目
 - 查看 "Environment name" 字段
 
 **TestPyPI (测试环境)**:
 - 访问：https://test.pypi.org/manage/account/publishing/
-- 查找 `vrl-python-sdk` 项目
+- 查找 `vrl-python` 项目
 - 查看 "Environment name" 字段
 
 ### 2. 检查 GitHub Environments

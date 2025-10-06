@@ -38,7 +38,7 @@ This guide will walk you through creating and configuring GitHub Environments fo
    - 选择 "GitHub"
    - 填写以下信息：
      ```
-     PyPI Project Name: vrl-python-sdk
+     PyPI Project Name: vrl-python
      Owner: A2C-SMCP
      Repository name: vrl-python
      Workflow name: publish.yml
@@ -58,7 +58,7 @@ This guide will walk you through creating and configuring GitHub Environments fo
    - 选择 "GitHub"
    - 填写以下信息：
      ```
-     PyPI Project Name: vrl-python-sdk
+     PyPI Project Name: vrl-python
      Owner: A2C-SMCP
      Repository name: vrl-python
      Workflow name: publish.yml
@@ -124,7 +124,7 @@ This guide will walk you through creating and configuring GitHub Environments fo
 ┌─────────────────────────────────────────────────┐
 │ Add a new pending publisher                     │
 ├─────────────────────────────────────────────────┤
-│ PyPI Project Name: vrl-python-sdk               │
+│ PyPI Project Name: vrl-python                   │
 │ Owner: A2C-SMCP                                 │
 │ Repository name: vrl-python                     │
 │ Workflow name: publish.yml                      │
@@ -182,7 +182,7 @@ This guide will walk you through creating and configuring GitHub Environments fo
    - 如果配置了审核者，需要先批准
 
 4. **验证发布**
-   - 访问：https://test.pypi.org/project/vrl-python-sdk/
+   - 访问：https://test.pypi.org/project/vrl-python/
    - 应该能看到新版本
 
 ### 3.2 创建正式 Release (发布到 PyPI)
@@ -206,7 +206,7 @@ This guide will walk you through creating and configuring GitHub Environments fo
    - 如果配置了审核者，需要先批准
 
 4. **验证发布**
-   - 访问：https://pypi.org/project/vrl-python-sdk/
+   - 访问：https://pypi.org/project/vrl-python/
    - 应该能看到新版本
 
 ---
@@ -257,7 +257,7 @@ This guide will walk you through creating and configuring GitHub Environments fo
 ### PyPI 配置
 - [ ] PyPI 账号已创建
 - [ ] 在 PyPI 添加了 Trusted Publisher
-  - [ ] Project Name: `vrl-python-sdk`
+  - [ ] Project Name: `vrl-python`
   - [ ] Owner: `A2C-SMCP`
   - [ ] Repository: `vrl-python`
   - [ ] Workflow: `publish.yml`
@@ -266,7 +266,7 @@ This guide will walk you through creating and configuring GitHub Environments fo
 ### TestPyPI 配置
 - [ ] TestPyPI 账号已创建
 - [ ] 在 TestPyPI 添加了 Trusted Publisher
-  - [ ] Project Name: `vrl-python-sdk`
+  - [ ] Project Name: `vrl-python`
   - [ ] Owner: `A2C-SMCP`
   - [ ] Repository: `vrl-python`
   - [ ] Workflow: `publish.yml`
@@ -362,10 +362,10 @@ git tag -d v0.1.0
 git push origin --delete v0.1.0
 
 # 从 TestPyPI 安装测试
-pip install --index-url https://test.pypi.org/simple/ vrl-python-sdk
+pip install --index-url https://test.pypi.org/simple/ vrl-python
 
 # 从 PyPI 安装正式版
-pip install vrl-python-sdk
+pip install vrl-python
 ```
 
 ---

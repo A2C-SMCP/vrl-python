@@ -93,7 +93,7 @@ jobs:
     if: github.event.release.prerelease == true
     environment:
       name: testpypi  # ⚠️ 必须与 GitHub Settings 中的 Environment 名称一致
-      url: https://test.pypi.org/p/vrl-python-sdk
+      url: https://test.pypi.org/p/vrl-python
     
     steps:
       - name: Download all artifacts
@@ -120,7 +120,7 @@ jobs:
     if: github.event.release.prerelease == false
     environment:
       name: pypi  # ⚠️ 必须与 GitHub Settings 中的 Environment 名称一致
-      url: https://pypi.org/p/vrl-python-sdk
+      url: https://pypi.org/p/vrl-python
     
     steps:
       - name: Download all artifacts
