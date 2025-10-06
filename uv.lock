@@ -741,7 +741,7 @@ wheels = [
 ]
 
 [[package]]
-name = "vrl-python-sdk"
+name = "vrl-python"
 version = "0.1.0"
 source = { editable = "." }
 

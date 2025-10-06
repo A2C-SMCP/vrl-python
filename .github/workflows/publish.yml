@@ -38,6 +38,16 @@ jobs:
           args: --release --out dist --find-interpreter
           sccache: 'true'
           manylinux: auto
+
+      # 为 Linux 构建 aarch64 架构的 wheel / Build Linux aarch64 wheel
+      - name: Build wheels (Linux aarch64)
+        if: matrix.os == 'ubuntu-latest'
+        uses: PyO3/maturin-action@v1
+        with:
+          target: aarch64
+          args: --release --out dist --find-interpreter
+          sccache: 'true'
+          manylinux: auto
       
       - name: Build wheels (macOS)
         if: matrix.os == 'macos-latest'
