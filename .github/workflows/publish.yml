@@ -128,11 +128,13 @@ jobs:
     name: Publish to PyPI (Release)
     needs: [build-wheels, build-sdist]
     runs-on: ubuntu-latest
-    # 只在正式 release 时发布到 PyPI
+    # 只在正式 release 时发布到 PyPI / Only publish to PyPI on official releases
     if: github.event.release.prerelease == false
     environment:
-      name: pypi  # ⚠️ 必须与 GitHub Settings 中的 Environment 名称一致
+      name: pypi  # ⚠️ 必须与 GitHub Settings 中的 Environment 名称一致 / Must match Environment name in GitHub Settings
       url: https://pypi.org/p/vrl-python
+    permissions:
+      id-token: write  # 用于 PyPI Trusted Publishing / For PyPI Trusted Publishing
     
     steps:
       - name: Download all artifacts
