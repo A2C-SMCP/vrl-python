@@ -49,7 +49,7 @@ jobs:
           sccache: 'true'
           manylinux: auto
         env:
-          CFLAGS_aarch64_unknown_linux_gnu: "-march=armv8-a"
+          CFLAGS_aarch64_unknown_linux_gnu: "-march=armv8-a -D__ARM_ARCH=8"
       
       - name: Build wheels (macOS)
         if: matrix.os == 'macos-latest'
